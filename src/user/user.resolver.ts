@@ -44,13 +44,18 @@ export class UserResolver {
   }
 
   @Mutation(() => MessageDto)
-  async sendMessage(@Args('message') message: InputMessageDto) {
-    await this.pubSub.publish(EVENT_MESSAGE_TRIGGER, {['messages']: message});
+  async sendMessage(
+    @Args('message') message: InputMessageDto,
+    @Args('userOrRoomId') userOrRoomId: string
+  ) {
+    await this.pubSub.publish(userOrRoomId, {['messages']: message});
     return await message;
   }
 
   @Subscription(() => MessageDto)
-  async messages() {
-    return await this.pubSub.asyncIterator(EVENT_MESSAGE_TRIGGER);
+  async messages(
+    @Args('userOrRoomId') userOrRoomId: string
+  ) {
+    return await this.pubSub.asyncIterator(userOrRoomId);
   }
 }

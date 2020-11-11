@@ -38,7 +38,7 @@ type Query {
 type Mutation {
   updateUserById(inputs: UpdateUserDto!, id: String!): UserEntity!
   createUser(inputs: CreateUserDto!): UserEntity!
-  sendMessage(message: InputMessageDto!): MessageDto!
+  sendMessage(userOrRoomId: String!, message: InputMessageDto!): MessageDto!
 }
 
 input UpdateUserDto {
@@ -64,5 +64,5 @@ input InputMessageDto {
 }
 
 type Subscription {
-  messages: MessageDto!
+  messages(userOrRoomId: String!): MessageDto!
 }
